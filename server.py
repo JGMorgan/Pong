@@ -23,13 +23,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 
 
 if __name__ == '__main__':
-
-    #import sys
-
-    #from twisted.python import log
     from twisted.internet import reactor
-
-    #log.startLogging(sys.stdout)
 
     factory = WebSocketServerFactory(u"ws://127.0.0.1:5000")
     factory.protocol = MyServerProtocol
