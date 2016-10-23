@@ -23,12 +23,16 @@ class Ball():
             self.xMove *= -1
         return (self.x, self.y)
 
-    def reset():
+    def reset(self, score1, score2):
         if self.x < 0 or self.x > 1280:
+            if (self.x < 0):
+                score2 += 1
+            if (self.x > 1280):
+                score1 += 1
             self.x = 640
             self.y = 360
-            return True
-        return False
+            return (score1, score2)
+        return (score1, score2)
 
 class Paddle():
     x = 10
@@ -56,9 +60,12 @@ def main():
     pygame.init()
     ws = create_connection("ws://localhost:5000/", sslopt={"cert_reqs": ssl.CERT_NONE})
     screen = pygame.display.set_mode((1280, 720))
+    myfont = pygame.font.Font(None, 72)
     done = False
     x = 10
     y = 10
+    score1 = 0;
+    score2 = 0;
     ball = Ball(640, 360)
     paddle = Paddle(x, y)
     paddle2 = Paddle(1250, 10)
@@ -69,10 +76,13 @@ def main():
         screen.fill((0, 0, 0))
         paddle_coords = paddle.update()
 
-
         temp = json.dumps({"paddleX": paddle_coords[0],
                             "paddleY": paddle_coords[1],
                             "value": random.random()})
+
+        newscores = ball.reset(score1, score2)
+        score1 = newscores[0]
+        score2 = newscores[1]
         ws.send(temp)
         result = ws.recv()
         if temp != result:
@@ -82,6 +92,9 @@ def main():
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(paddle_coords[0], paddle_coords[1] , 20, 180))
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(paddle_coords2[0], paddle_coords2[1] , 20, 180))
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(ball_coords[0], ball_coords[1], 20, 20))
+        scoretext = myfont.render("{0}   {1}".format(score1, score2), 1, (0,255,0))
+        screen.blit(scoretext, (1280/2 - 50, 25))
+
         pygame.display.flip()
         clock.tick(60)
 
