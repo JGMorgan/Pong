@@ -18,15 +18,22 @@ class Ball():
         if self.y < 0 or self.y > 720:
             self.yMove *= -1
         if self.x >= 10 and self.x <= 20 and self.y <= (paddle1[1] + 180) and self.y >= paddle1[1]:
+            self.xMove *= 2
+            self.yMove *= 2
             self.xMove *= -1
         elif self.x >= 1250 and self.x <= 1260 and self.y <= (paddle2[1] + 180) and self.y >= paddle2[1]:
+            self.xMove *= 2
+            self.yMove *= 2
             self.xMove *= -1
+
         return (self.x, self.y)
 
     def reset():
         if self.x < 0 or self.x > 1280:
             self.x = 640
             self.y = 360
+            self.xMove = 8
+            self.yMove = 8
             return True
         return False
 
@@ -75,7 +82,7 @@ def main():
                             "value": random.random()})
         ws.send(temp)
         result = ws.recv()
-        if temp != result:
+        if temp == result:
             coords = json.loads(result)
             paddle_coords2 = paddle2.updateRemote(1250, coords['paddleY'])
         ball_coords = ball.update(paddle_coords, paddle_coords2)
