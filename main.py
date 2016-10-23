@@ -77,21 +77,20 @@ def main():
     balls = []
     balls.append(Ball(640, 360, 8, 8))
     balls.append(Ball(640, 360, -8, -8))
-    balls.append(Ball(640, 360, -8, -8))
-    balls.append(Ball(640, 360, -8, -8))
-    balls.append(Ball(640, 360, -8, -8))
-    balls.append(Ball(640, 360, -8, -8))
-    balls.append(Ball(640, 360, -8, -8))
-    balls.append(Ball(640, 360, -8, -8))
+    balls.append(Ball(640, 360, 23, -8))
+    balls.append(Ball(640, 360, 18, 3))
+    balls.append(Ball(640, 360, -76, 7))
+    balls.append(Ball(640, 360, -1, -1))
+    balls.append(Ball(640, 360, -2, 8))
+    balls.append(Ball(640, 360, -98, 8))
 
     ball1 = balls[0]
     paddle = Paddle(x, y)
     paddle2 = Paddle(1250, 10)
     clock = pygame.time.Clock()
     paddle_coords2 = (1250, 10)
-
     while not done:
-        screen.fill((0, 0, 0))
+        screen.fill((0x27, 0x2B, 0x33))
         paddle_coords = paddle.update()
 
         temp = json.dumps({"paddleX": paddle_coords[0],
@@ -127,9 +126,10 @@ def main():
                 balls_coords.append(ball.update(paddle_coords, paddle_coords2))
 
         # ball_coords = ball2.update(paddle_coords, paddle_coords2)
-        pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(paddle_coords[0], paddle_coords[1] , 20, 180))
-        pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(paddle_coords2[0], paddle_coords2[1] , 20, 180))
-        pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(ball1_coords[0], ball1_coords[1], 20, 20))
+        pygame.draw.rect(screen, (0x87, 0xC0, 0x78), pygame.Rect(paddle_coords[0], paddle_coords[1] , 20, 180))
+        pygame.draw.rect(screen, (0x87, 0xC0, 0x78), pygame.Rect(paddle_coords2[0], paddle_coords2[1] , 20, 180))
+
+        pygame.draw.rect(screen, (0xF4, 0x43, 0x36), pygame.Rect(ball1_coords[0], ball1_coords[1], 20, 20))
 
         # if(score1 > 4 or score2 > 4):
         #     pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(ball2_coords[0], ball2_coords[1], 20, 20))
@@ -137,9 +137,9 @@ def main():
             ball = balls[i]
             if((score1 > i*2) or (score2 > i*2)):
                 balls_coords[i] = ball.update(paddle_coords, paddle_coords2)
-                pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(balls_coords[i][0], balls_coords[i][1], 20, 20))
+                pygame.draw.rect(screen, (0xF4, 0x43, 0x36), pygame.Rect(balls_coords[i][0], balls_coords[i][1], 20, 20))
 
-        scoretext = myfont.render("{0}   {1}".format(score1, score2), 1, (0,255,0))
+        scoretext = myfont.render("{0}   {1}".format(score1, score2), 1, (0xE5, 0xC1, 0x7C))
         screen.blit(scoretext, (1280/2 - 50, 25))
 
         pygame.display.flip()
