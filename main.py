@@ -18,12 +18,12 @@ class Ball():
         if self.y < 0 or self.y > 720:
             self.yMove *= -1
         if self.x >= 10 and self.x <= 20 and self.y <= (paddle1[1] + 180) and self.y >= paddle1[1]:
-            self.xMove *= 2
-            self.yMove *= 2
+            self.xMove = int(self.xMove * 1.2)
+            self.yMove = int(self.yMove * 1.2)
             self.xMove *= -1
         elif self.x >= 1250 and self.x <= 1260 and self.y <= (paddle2[1] + 180) and self.y >= paddle2[1]:
-            self.xMove *= 2
-            self.yMove *= 2
+            self.xMove = int(self.xMove * 1.2)
+            self.yMove = int(self.yMove * 1.2)
             self.xMove *= -1
 
         return (self.x, self.y)
