@@ -66,6 +66,7 @@ class Paddle():
 def main():
     pygame.init()
     ws = create_connection("ws://localhost:5000/", sslopt={"cert_reqs": ssl.CERT_NONE})
+    #ws = create_connection("ws://54.200.200.83:5000/", sslopt={"cert_reqs": ssl.CERT_NONE})
     screen = pygame.display.set_mode((1280, 720))
     myfont = pygame.font.Font(None, 72)
     done = False
