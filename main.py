@@ -90,7 +90,9 @@ def main():
     clock = pygame.time.Clock()
     paddle_coords2 = (1250, 10)
     value = random.random()
+    tick = 0
     while not done:
+        tick += 1
         screen.fill((0x27, 0x2B, 0x33))
         paddle_coords = paddle.update()
 
@@ -109,7 +111,10 @@ def main():
                 score1 = newscores[0]
                 score2 = newscores[1]
 
+
         ws.send(temp)
+        tick = 0
+
         result = ws.recv()
         coords = json.loads(result)
         if value != coords['value']:
