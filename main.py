@@ -65,8 +65,8 @@ class Paddle():
 
 def main():
     pygame.init()
-    ws = create_connection("ws://localhost:5000/", sslopt={"cert_reqs": ssl.CERT_NONE})
-    #ws = create_connection("ws://54.200.200.83:5000/", sslopt={"cert_reqs": ssl.CERT_NONE})
+    #ws = create_connection("ws://localhost:5000/", sslopt={"cert_reqs": ssl.CERT_NONE})
+    ws = create_connection("ws://54.200.200.83:5000/", sslopt={"cert_reqs": ssl.CERT_NONE})
     screen = pygame.display.set_mode((1280, 720))
     myfont = pygame.font.Font(None, 72)
     done = False
@@ -111,12 +111,14 @@ def main():
 
         ws.send(temp)
         result = ws.recv()
-        if temp == result:
+        print result
+        if temp != result:
             coords = json.loads(result)
+            print coords
             paddle_coords2 = paddle2.updateRemote(1250, coords['paddleY'])
-        
+
         ball1_coords = ball1.update(paddle_coords, paddle_coords2)
-    
+
         balls_coords = []
         balls_coords.append(ball1_coords)
         for i in xrange(1, len(balls)):
@@ -129,14 +131,14 @@ def main():
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(paddle_coords2[0], paddle_coords2[1] , 20, 180))
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(ball1_coords[0], ball1_coords[1], 20, 20))
 
-        # if(score1 > 4 or score2 > 4): 
+        # if(score1 > 4 or score2 > 4):
         #     pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(ball2_coords[0], ball2_coords[1], 20, 20))
         for i in xrange(1, len(balls)):
             ball = balls[i]
             if((score1 > i*2) or (score2 > i*2)):
                 balls_coords[i] = ball.update(paddle_coords, paddle_coords2)
                 pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(balls_coords[i][0], balls_coords[i][1], 20, 20))
-        
+
         scoretext = myfont.render("{0}   {1}".format(score1, score2), 1, (0,255,0))
         screen.blit(scoretext, (1280/2 - 50, 25))
 

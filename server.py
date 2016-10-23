@@ -1,7 +1,7 @@
 from autobahn.twisted.websocket import WebSocketServerProtocol, \
     WebSocketServerFactory
 
-
+clients = []
 class MyServerProtocol(WebSocketServerProtocol):
 
     def onConnect(self, request):
@@ -9,6 +9,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 
     def onOpen(self):
         print("WebSocket connection open.")
+        clients.append(self)
 
     def onMessage(self, payload, isBinary):
         if isBinary:
@@ -16,7 +17,8 @@ class MyServerProtocol(WebSocketServerProtocol):
         else:
             print("Text message received: {0}".format(payload.decode('utf8')))
 
-        self.sendMessage(payload, isBinary)
+        for client in clients:
+            client.sendMessage(payload, isBinary)
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
