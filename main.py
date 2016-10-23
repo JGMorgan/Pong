@@ -89,13 +89,14 @@ def main():
     paddle2 = Paddle(1250, 10)
     clock = pygame.time.Clock()
     paddle_coords2 = (1250, 10)
+    value = random.random()
     while not done:
         screen.fill((0x27, 0x2B, 0x33))
         paddle_coords = paddle.update()
 
         temp = json.dumps({"paddleX": paddle_coords[0],
                             "paddleY": paddle_coords[1],
-                            "value": random.random()})
+                            "value": value})
 
         newscores = ball1.reset(score1, score2)
         score1 = newscores[0]
@@ -110,10 +111,10 @@ def main():
 
         ws.send(temp)
         result = ws.recv()
-        print result
-        if temp != result:
+        coords = json.loads(result)
+        if value != coords['value']:
             coords = json.loads(result)
-            print coords
+            print coords['paddleY']
             paddle_coords2 = paddle2.updateRemote(1250, coords['paddleY'])
 
         ball1_coords = ball1.update(paddle_coords, paddle_coords2)
