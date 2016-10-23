@@ -27,7 +27,8 @@ class MyServerProtocol(WebSocketServerProtocol):
 if __name__ == '__main__':
     from twisted.internet import reactor
 
-    factory = WebSocketServerFactory(u"ws://127.0.0.1:5000")
+    #factory = WebSocketServerFactory(u"ws://127.0.0.1:5000")
+    factory = WebSocketServerFactory(u"ws://54.200.200.83:5000")
     factory.protocol = MyServerProtocol
 
     reactor.listenTCP(5000, factory)
